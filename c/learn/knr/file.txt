@@ -1,0 +1,15 @@
+hello world
+one blank
+two  blanks
+three   blanks
+this one has	tab
+this	one	too
+---------------
+This line has trailing spaces  
+This one has trailing tabs		
+This one has both!  	  	
+
+^ Empty line
+
+
+Two empty lines.
