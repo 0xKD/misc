@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FLIP</title>
+  <style>
+    .container {
+      max-width: 460px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    .box {
+      width: 4rem;
+      height: 4rem;
+      margin: 0 auto;
+      background-color: #e3e3e3;
+    }
+    .box--under {
+      margin-top: 4rem;
+    }
+    .box--under-2 {
+      transform: translateY(4rem);
+    }
+    .box--animate {
+      transition: transform 0.24s ease-out;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="box" id="box"></div>
+  </div>
+  <script src="script.js"></script> <!-- or script2.js -->
+</body>
+</html>
