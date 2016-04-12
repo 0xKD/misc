@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
-import Counter from './components/Counter';
+import Counter from './components/Counter.jsx';
 import counter from './reducers/Counter';
 
 const store = createStore(counter);
