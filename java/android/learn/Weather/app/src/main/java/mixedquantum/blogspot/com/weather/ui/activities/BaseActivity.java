@@ -11,7 +11,7 @@ import mixedquantum.blogspot.com.weather.R;
 
 public class BaseActivity extends AppCompatActivity {
     private static final String TAG = BaseActivity.class.getSimpleName();
-    private static Toolbar mToolbar;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
