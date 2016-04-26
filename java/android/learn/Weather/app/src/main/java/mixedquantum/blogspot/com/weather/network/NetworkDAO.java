@@ -3,6 +3,7 @@ package mixedquantum.blogspot.com.weather.network;
 import com.google.gson.GsonBuilder;
 
 import mixedquantum.blogspot.com.weather.network.interceptors.AuthInterceptor;
+import mixedquantum.blogspot.com.weather.network.responses.NetworkVO;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -32,11 +33,12 @@ public class NetworkDAO {
         endpoints = retrofit.create(Endpoints.class);
     }
 
+    private static class NetworkDAOHolder {
+        private static final NetworkDAO INSTANCE = new NetworkDAO();
+    }
+
     public static NetworkDAO getInstance() {
-        if (instance == null) {
-            instance = new NetworkDAO();
-        }
-        return instance;
+        return NetworkDAOHolder.INSTANCE;
     }
 
     public void retryLast() {
