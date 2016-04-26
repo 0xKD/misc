@@ -3,7 +3,6 @@ package mixedquantum.blogspot.com.weather.network;
 import com.google.gson.GsonBuilder;
 
 import mixedquantum.blogspot.com.weather.network.interceptors.AuthInterceptor;
-import mixedquantum.blogspot.com.weather.network.responses.NetworkVO;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -12,7 +11,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class NetworkDAO {
-    private static NetworkDAO instance;
     private static Endpoints endpoints;
     private static Call mLatestCall;
 
