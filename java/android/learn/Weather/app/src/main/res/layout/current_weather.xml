@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/progressbar"/>
+
+    <LinearLayout
+        android:paddingTop="@dimen/fragment_top_padding"
+        android:paddingBottom="@dimen/fragment_top_padding"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            tools:text="Partly Cloudy"
+            android:id="@+id/description"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_small"
+            android:paddingTop="@dimen/text_padding_small"
+            android:paddingBottom="@dimen/text_padding_small" />
+        <TextView
+            tools:text="Mumbai"
+            android:id="@+id/location"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_normal"
+            android:paddingTop="@dimen/text_padding_small"
+            android:paddingBottom="@dimen/text_padding_small"/>
+        <TextView
+            tools:text="32.4"
+            android:id="@+id/temperature"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_super_large"
+            android:paddingTop="@dimen/text_padding"
+            android:paddingBottom="@dimen/text_padding"/>
+    </LinearLayout>
+</FrameLayout>

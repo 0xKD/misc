@@ -10,6 +10,7 @@ import android.widget.Toast;
 import org.greenrobot.eventbus.Subscribe;
 
 import mixedquantum.blogspot.com.weather.R;
+import mixedquantum.blogspot.com.weather.models.CurrentWeather;
 import mixedquantum.blogspot.com.weather.models.WeatherForecast;
 import mixedquantum.blogspot.com.weather.utils.ServiceDelegate;
 
@@ -19,6 +20,7 @@ public class DummyFragment extends BaseFragment {
     public void onStart() {
         super.onStart();
         ServiceDelegate.getInstance().getWeatherDetails(1275339L);
+        ServiceDelegate.getInstance().getCurrentWeather(1275339L);
         setScreenTitle(R.string.app_name);
     }
 
@@ -31,5 +33,12 @@ public class DummyFragment extends BaseFragment {
     @Subscribe
     public void onEvent(WeatherForecast weatherForecast) {
         Toast.makeText(getActivity(), weatherForecast.getCity().getName(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Subscribe
+    public void onEvent(CurrentWeather currentWeather) {
+        CurrentWeatherFragment fragment = CurrentWeatherFragment.newInstance(currentWeather);
+        getFragmentManager().beginTransaction().replace(
+                R.id.container, fragment, CurrentWeatherFragment.class.getSimpleName()).commit();
     }
 }

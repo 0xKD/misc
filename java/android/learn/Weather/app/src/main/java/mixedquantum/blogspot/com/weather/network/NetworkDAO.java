@@ -61,4 +61,8 @@ public class NetworkDAO {
     public void getWeatherDetails(Long id) {
         enqueueAndRegister(endpoints.getForecast(id));
     }
+
+    public void getCurrentWeather(long id) {
+        enqueueAndRegister(endpoints.getCurrentWeather(id));
+    }
 }

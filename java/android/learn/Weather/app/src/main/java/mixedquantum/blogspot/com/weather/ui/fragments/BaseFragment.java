@@ -2,13 +2,16 @@ package mixedquantum.blogspot.com.weather.ui.fragments;
 
 import android.app.Activity;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.ActionBar;
+import android.util.Log;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
+import mixedquantum.blogspot.com.weather.network.responses.ErrorVO;
 import mixedquantum.blogspot.com.weather.ui.activities.BaseActivity;
 
 public class BaseFragment extends DialogFragment {
+    public static String TAG = BaseFragment.class.getSimpleName();
     protected Activity mActivity;
 
     @Override
@@ -47,5 +50,10 @@ public class BaseFragment extends DialogFragment {
                 ((BaseActivity) mActivity).setScreenTitle(title);
             }
         }
+    }
+
+    @Subscribe
+    public void onErrorEvent(ErrorVO error) {
+        Log.e(TAG, "Some error occurred" + error);
     }
 }
