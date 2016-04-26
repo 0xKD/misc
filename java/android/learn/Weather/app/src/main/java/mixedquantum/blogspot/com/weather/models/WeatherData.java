@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import mixedquantum.blogspot.com.weather.models.primitive.Clouds;
+import mixedquantum.blogspot.com.weather.models.primitive.Main;
+import mixedquantum.blogspot.com.weather.models.primitive.Sys;
+import mixedquantum.blogspot.com.weather.models.primitive.Weather;
+import mixedquantum.blogspot.com.weather.models.primitive.Wind;
+
 
 public class WeatherData {
     @SerializedName("dt")

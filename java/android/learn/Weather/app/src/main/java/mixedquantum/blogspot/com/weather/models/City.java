@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import mixedquantum.blogspot.com.weather.models.primitive.Coord;
+
 
 public class City {
     @SerializedName("id")
