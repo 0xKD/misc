@@ -7,10 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.greenrobot.eventbus.EventBus;
-
 import mixedquantum.blogspot.com.weather.R;
 import mixedquantum.blogspot.com.weather.models.CurrentWeather;
+import mixedquantum.blogspot.com.weather.ui.activities.BaseActivity;
 import mixedquantum.blogspot.com.weather.utils.Constants;
 
 public class CurrentWeatherFragment extends BaseFragment {
@@ -33,6 +32,7 @@ public class CurrentWeatherFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        ((BaseActivity) getActivity()).hideActionBar();
         View view = inflater.inflate(R.layout.current_weather, container, false);
         if (currentWeather == null) {
             currentWeather = getArguments().getParcelable(Constants.CURRENT_WEATHER);

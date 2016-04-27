@@ -3,10 +3,12 @@ package mixedquantum.blogspot.com.weather.ui.fragments;
 import android.app.Activity;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
+import android.view.View;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import mixedquantum.blogspot.com.weather.R;
 import mixedquantum.blogspot.com.weather.network.responses.ErrorVO;
 import mixedquantum.blogspot.com.weather.ui.activities.BaseActivity;
 
@@ -50,6 +52,24 @@ public class BaseFragment extends DialogFragment {
                 ((BaseActivity) mActivity).setScreenTitle(title);
             }
         }
+    }
+
+    private void setProgressbarVisiblity(int visibility) {
+        View container = getView();
+        if (container != null) {
+            View view = container.findViewById(R.id.progressbar_container);
+            if (view != null) {
+                view.setVisibility(visibility);
+            }
+        }
+    }
+
+    public void showFragmentProgressbar() {
+        setProgressbarVisiblity(View.VISIBLE);
+    }
+
+    public void hideFragmentProgressbar() {
+        setProgressbarVisiblity(View.GONE);
     }
 
     @Subscribe

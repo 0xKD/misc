@@ -1,6 +1,5 @@
 package mixedquantum.blogspot.com.weather.ui.activities;
 
-import android.os.Bundle;
 
 import mixedquantum.blogspot.com.weather.R;
 import mixedquantum.blogspot.com.weather.ui.fragments.DummyFragment;

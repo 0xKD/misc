@@ -36,4 +36,11 @@ public class BaseActivity extends AppCompatActivity {
             actionBar.setTitle(title);
         }
     }
+
+    public void hideActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
+    }
 }

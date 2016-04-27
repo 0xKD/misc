@@ -12,6 +12,7 @@ import org.greenrobot.eventbus.Subscribe;
 import mixedquantum.blogspot.com.weather.R;
 import mixedquantum.blogspot.com.weather.models.CurrentWeather;
 import mixedquantum.blogspot.com.weather.models.WeatherForecast;
+import mixedquantum.blogspot.com.weather.ui.activities.BaseActivity;
 import mixedquantum.blogspot.com.weather.utils.ServiceDelegate;
 
 public class DummyFragment extends BaseFragment {
@@ -19,9 +20,11 @@ public class DummyFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
+        ((BaseActivity) getActivity()).hideActionBar();
+        setScreenTitle(R.string.app_name);
+        showFragmentProgressbar();
         ServiceDelegate.getInstance().getWeatherDetails(1275339L);
         ServiceDelegate.getInstance().getCurrentWeather(1275339L);
-        setScreenTitle(R.string.app_name);
     }
 
     @Nullable
