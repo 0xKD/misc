@@ -6,6 +6,10 @@
     android:layout_height="match_parent">
     <include layout="@layout/progressbar"/>
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <LinearLayout
         android:paddingTop="@dimen/fragment_top_padding"
         android:paddingBottom="@dimen/fragment_top_padding"
