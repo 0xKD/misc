@@ -20,7 +20,10 @@ public class DummyFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        ((BaseActivity) getActivity()).hideActionBar();
+        BaseActivity baseActivity = ((BaseActivity) getActivity());
+        baseActivity.hideActionBar();
+        baseActivity.setStatusBarTranslucent(true);
+
         setScreenTitle(R.string.app_name);
         showFragmentProgressbar();
         ServiceDelegate.getInstance().getWeatherDetails(1275339L);
