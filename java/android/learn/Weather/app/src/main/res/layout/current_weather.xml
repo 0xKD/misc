@@ -7,8 +7,10 @@
     <include layout="@layout/progressbar"/>
 
     <ImageView
+        android:id="@+id/background_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:contentDescription="@string/weather_background" />
 
     <LinearLayout
         android:paddingTop="@dimen/fragment_top_padding"
