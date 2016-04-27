@@ -1,8 +1,12 @@
 package mixedquantum.blogspot.com.weather.network;
 
+import android.media.Image;
+
 import com.google.gson.GsonBuilder;
 
 import mixedquantum.blogspot.com.weather.network.interceptors.AuthInterceptor;
+import mixedquantum.blogspot.com.weather.network.interceptors.ImageAuthInterceptor;
+import mixedquantum.blogspot.com.weather.utils.fivehundredpx.ImageSize;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -12,6 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetworkDAO {
     private static Endpoints endpoints;
+    private static ImageEndpoints imageEndpoints;
     private static Call mLatestCall;
 
     private NetworkDAO() {
@@ -29,6 +34,18 @@ public class NetworkDAO {
                 .client(okHttpClient)
                 .build();
         endpoints = retrofit.create(Endpoints.class);
+
+        // For 500px
+        OkHttpClient imagesHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(new ImageAuthInterceptor())
+                .addInterceptor(loggingInterceptor)
+                .build();
+        Retrofit r = new Retrofit.Builder()
+                .baseUrl(ImageEndpoints.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gsonBuilder.create()))
+                .client(imagesHttpClient)
+                .build();
+        imageEndpoints = r.create(ImageEndpoints.class);
     }
 
     private static class NetworkDAOHolder {
@@ -53,6 +70,10 @@ public class NetworkDAO {
         call.enqueue(ResponseListener.getInstance());
     }
 
+    private void enqueueSilent(Call call) {
+        call.enqueue(SilentResponseListener.getInstance());
+    }
+
     private void enqueueAndRegister(Call call) {
         enqueue(call);
         registerCall(call);
@@ -64,5 +85,9 @@ public class NetworkDAO {
 
     public void getCurrentWeather(long id) {
         enqueueAndRegister(endpoints.getCurrentWeather(id));
+    }
+
+    public void getPhoto(String term) {
+        enqueueSilent(imageEndpoints.getPhotos(term, ImageSize.C600.getSize(), "rating", 1));
     }
 }

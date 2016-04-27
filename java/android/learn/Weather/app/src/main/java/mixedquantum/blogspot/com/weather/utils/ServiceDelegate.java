@@ -26,4 +26,8 @@ public class ServiceDelegate {
     public void getCurrentWeather(long id) {
         NetworkDAO.getInstance().getCurrentWeather(id);
     }
+
+    public void getPhoto(String term) {
+        NetworkDAO.getInstance().getPhoto(term);
+    }
 }
