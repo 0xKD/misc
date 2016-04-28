@@ -1,5 +1,7 @@
 package mixedquantum.blogspot.com.weather.network;
 
+import java.io.IOException;
+
 import mixedquantum.blogspot.com.weather.network.responses.ErrorVO;
 import mixedquantum.blogspot.com.weather.network.responses.NetworkVO;
 import retrofit2.Call;
@@ -16,10 +18,16 @@ public abstract class AbstractResponseListener<T> implements Callback<T> {
         NetworkVO nResponse = new NetworkVO(response);
         if (!nResponse.isSuccessful()) {
             ErrorVO error = new ErrorVO();
-            error.setMessage(response.errorBody().toString());
-            error.setRequestUrl(response.raw().request().url().toString());
-            error.setStatusCode(response.code());
-            nResponse.setError(error);
+            try {
+                error.setMessage(response.errorBody().string());
+                // Wil show text according to HTTP status code (401 -> Unauthorized)
+                // error.setMessage(response.raw().message());
+                error.setRequestUrl(response.raw().request().url().toString());
+                error.setStatusCode(response.code());
+                nResponse.setError(error);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         onResponse(nResponse);
     }
