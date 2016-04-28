@@ -1,7 +1,5 @@
 package mixedquantum.blogspot.com.weather.network;
 
-import android.media.Image;
-
 import com.google.gson.GsonBuilder;
 
 import mixedquantum.blogspot.com.weather.network.interceptors.AuthInterceptor;
