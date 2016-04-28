@@ -2,7 +2,6 @@ package mixedquantum.blogspot.com.weather.ui.fragments;
 
 import android.app.Activity;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.View;
 
 import org.greenrobot.eventbus.EventBus;
@@ -73,7 +72,12 @@ public class BaseFragment extends DialogFragment {
     }
 
     @Subscribe
-    public void onErrorEvent(ErrorVO error) {
-        Log.e(TAG, "Some error occurred" + error);
+    public void onEvent(ErrorVO error) {
+        hideFragmentProgressbar();
+        Activity activity = getActivity();
+        if (isAdded()) {
+            String errorMessage = error.getMessage();
+            ((BaseActivity) activity).showErrorSnackbar(errorMessage);
+        }
     }
 }
