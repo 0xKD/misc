@@ -2,12 +2,13 @@ package mixedquantum.blogspot.com.weather.ui.activities;
 
 
 import mixedquantum.blogspot.com.weather.R;
-import mixedquantum.blogspot.com.weather.ui.fragments.DummyFragment;
+import mixedquantum.blogspot.com.weather.ui.fragments.CurrentWeatherFragment;
 
 public class MainActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, new DummyFragment()).commit();
+        CurrentWeatherFragment fragment = CurrentWeatherFragment.newInstance(1275339L);
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }
 }

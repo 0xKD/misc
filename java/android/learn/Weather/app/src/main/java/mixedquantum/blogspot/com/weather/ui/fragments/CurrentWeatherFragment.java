@@ -26,14 +26,12 @@ import mixedquantum.blogspot.com.weather.utils.SpaceTime;
 import mixedquantum.blogspot.com.weather.utils.Temperature;
 
 public class CurrentWeatherFragment extends BaseFragment {
-    private CurrentWeather currentWeather;
-    private ImageView imgBackground;
-    private TextView txtDescription;
+    private CurrentWeather mCurrentWeather;
 
-    public static CurrentWeatherFragment newInstance(CurrentWeather weather) {
+    public static CurrentWeatherFragment newInstance(long locationId) {
         CurrentWeatherFragment fragment = new CurrentWeatherFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(Constants.CURRENT_WEATHER, weather);
+        bundle.putLong(Constants.OPENWEATHER_LOCATION, locationId);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -41,57 +39,90 @@ public class CurrentWeatherFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        currentWeather = getArguments().getParcelable(Constants.CURRENT_WEATHER);
+        if (mCurrentWeather == null) {
+            showFragmentProgressbar();
+            refresh();
+        }
+    }
+
+    public void refresh() {
+        Bundle bundle = getArguments();
+        ServiceDelegate.getInstance().getCurrentWeather(bundle.getLong(Constants.OPENWEATHER_LOCATION));
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ((BaseActivity) getActivity()).hideActionBar();
-        View view = inflater.inflate(R.layout.current_weather, container, false);
-        if (currentWeather == null) {
-            currentWeather = getArguments().getParcelable(Constants.CURRENT_WEATHER);
-        }
-        if (currentWeather != null) {
-            TextView txtLocation = (TextView) view.findViewById(R.id.location);
-            txtDescription = (TextView) view.findViewById(R.id.description);
-            TextView txtTemperature = (TextView) view.findViewById(R.id.temperature);
-            txtLocation.setText(currentWeather.getName());
-            txtDescription.setText(currentWeather.getWeather().get(0).getDescription());  // add check!
-            Double temp = Temperature.kelvinToCelsius(currentWeather.getMain().getTemp());
-            txtTemperature.setText(String.format(Locale.getDefault(), "%.1f°", temp));
-            imgBackground = (ImageView) view.findViewById(R.id.background_image);
-            getBackgroundImage();
-        }
-        return view;
+        BaseActivity baseActivity = ((BaseActivity) getActivity());
+        baseActivity.hideActionBar();
+        baseActivity.setStatusBarTranslucent(true);
+        return inflater.inflate(R.layout.current_weather, container, false);
     }
 
     private void getBackgroundImage() {
-        String term = String.format(Locale.getDefault(), "%s %s",
-                txtDescription.getText(), SpaceTime.getPreciseName());
-        ServiceDelegate.getInstance().getPhoto(term.trim());
+        if (getView() != null) {
+            TextView txtDescription = (TextView) getView().findViewById(R.id.description);
+            String term = String.format(Locale.getDefault(), "%s %s",
+                    txtDescription.getText(), SpaceTime.getPreciseName());
+            ServiceDelegate.getInstance().getPhoto(term.trim());
+        }
     }
 
     private void getBackgroundImage(boolean precise) {
         // TODO: Clean up this and above method, progressively lower term precision
-        if (!precise) {
-            ServiceDelegate.getInstance().getPhoto(txtDescription.getText().toString());
-        } else {
-            getBackgroundImage();
+        if (getView() != null) {
+            if (!precise) {
+                ServiceDelegate.getInstance().getPhoto(mCurrentWeather.getWeather().get(0).getDescription());
+            } else {
+                getBackgroundImage();
+            }
         }
     }
 
     @Subscribe
     public void onImageEvent(SearchResult searchResult) {
-        if (searchResult.getPhotos().size() == 1) {
-            Picasso.with(getContext())
-                .load(searchResult.getPhotos().get(0).getImageUrl())
-                .fit()
-                .centerCrop()
-                .transform(new BlurTransformation(getContext(), 72))
-                .into(imgBackground);
+        if (searchResult.getPhotos().size() > 0) {
+            View view = getView();
+            if (view != null) {
+                fillBackgroundImage(view , searchResult.getPhotos().get(0).getImageUrl());
+            }
         } else {
             Log.e(TAG, "No photo found!");
         }
+    }
+
+    @Subscribe
+    public void onEvent(CurrentWeather currentWeather) {
+        hideFragmentProgressbar();
+        if (currentWeather.getWeather().size() > 0) {
+            mCurrentWeather = currentWeather;
+            View view = getView();
+            if (view != null) {
+                fillView(view);
+            }
+        }
+    }
+
+    public void fillView(View view) {
+        if (mCurrentWeather != null) {
+            TextView txtLocation = (TextView) view.findViewById(R.id.location);
+            TextView txtDescription = (TextView) view.findViewById(R.id.description);
+            TextView txtTemperature = (TextView) view.findViewById(R.id.temperature);
+            txtLocation.setText(mCurrentWeather.getName());
+            txtDescription.setText(mCurrentWeather.getWeather().get(0).getDescription());  // add check!
+            Double temp = Temperature.kelvinToCelsius(mCurrentWeather.getMain().getTemp());
+            txtTemperature.setText(String.format(Locale.getDefault(), "%.1f°", temp));
+            getBackgroundImage();
+        }
+    }
+
+    public void fillBackgroundImage(View view, String url) {
+        ImageView backgroundImage = (ImageView) view.findViewById(R.id.background_image);
+        Picasso.with(getContext())
+            .load(url)
+            .fit()
+            .centerCrop()
+            .transform(new BlurTransformation(getContext(), 72))
+            .into(backgroundImage);
     }
 }
