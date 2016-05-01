@@ -1,13 +1,16 @@
 package mixedquantum.blogspot.com.weather.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -20,12 +23,13 @@ import mixedquantum.blogspot.com.weather.R;
 import mixedquantum.blogspot.com.weather.models.CurrentWeather;
 import mixedquantum.blogspot.com.weather.models.photos.SearchResult;
 import mixedquantum.blogspot.com.weather.ui.activities.BaseActivity;
+import mixedquantum.blogspot.com.weather.ui.activities.ForecastActivity;
 import mixedquantum.blogspot.com.weather.utils.Constants;
 import mixedquantum.blogspot.com.weather.utils.ServiceDelegate;
 import mixedquantum.blogspot.com.weather.utils.SpaceTime;
 import mixedquantum.blogspot.com.weather.utils.Temperature;
 
-public class CurrentWeatherFragment extends BaseFragment {
+public class CurrentWeatherFragment extends BaseFragment implements View.OnClickListener {
     private CurrentWeather mCurrentWeather;
 
     public static CurrentWeatherFragment newInstance(long locationId) {
@@ -56,7 +60,10 @@ public class CurrentWeatherFragment extends BaseFragment {
         BaseActivity baseActivity = ((BaseActivity) getActivity());
         baseActivity.hideActionBar();
         baseActivity.setStatusBarTranslucent(true);
-        return inflater.inflate(R.layout.current_weather, container, false);
+        View view = inflater.inflate(R.layout.current_weather, container, false);
+        Button forecastButton = (Button) view.findViewById(R.id.button_forecast);
+        forecastButton.setOnClickListener(this);
+        return view;
     }
 
     private void getBackgroundImage() {
@@ -124,5 +131,17 @@ public class CurrentWeatherFragment extends BaseFragment {
             .centerCrop()
             .transform(new BlurTransformation(getContext(), 72))
             .into(backgroundImage);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.button_forecast:
+                Intent intent = new Intent(getActivity(), ForecastActivity.class);
+                startActivity(intent);
+                break;
+            default:
+                Toast.makeText(getContext(), "Wut?", Toast.LENGTH_SHORT).show();
+        }
     }
 }
