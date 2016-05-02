@@ -138,6 +138,11 @@ public class CurrentWeatherFragment extends BaseFragment implements View.OnClick
         switch (view.getId()) {
             case R.id.button_forecast:
                 Intent intent = new Intent(getActivity(), ForecastActivity.class);
+                Bundle currentBundle = getArguments();
+                Bundle extras = new Bundle();
+                extras.putLong(Constants.OPENWEATHER_LOCATION,
+                        currentBundle.getLong(Constants.OPENWEATHER_LOCATION));
+                intent.putExtras(extras);
                 startActivity(intent);
                 break;
             default:
