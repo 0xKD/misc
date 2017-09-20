@@ -253,3 +253,6 @@ tags
 
 # Visual Studio Code
 .vscode/
+
+# ignore files in bin directories
+bin/
